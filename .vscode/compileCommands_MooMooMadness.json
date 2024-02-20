@@ -1,0 +1,58 @@
+[
+	{
+		"file": "C:\\Users\\gorda\\Documents\\Unreal Projects\\MooMooMadness\\Source\\MooMooMadness\\MooMooMadness.Build.cs",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gorda\\Documents\\Unreal Projects\\MooMooMadness\\.vscode\\compileCommands_MooMooMadness\\MooMooMadness.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gorda\\Documents\\Unreal Projects\\MooMooMadness\\Source\\MooMooMadness\\MooMooMadness.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gorda\\Documents\\Unreal Projects\\MooMooMadness\\.vscode\\compileCommands_MooMooMadness\\MooMooMadness.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gorda\\Documents\\Unreal Projects\\MooMooMadness\\Source\\MooMooMadness\\MooMooMadness.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gorda\\Documents\\Unreal Projects\\MooMooMadness\\.vscode\\compileCommands_MooMooMadness\\MooMooMadness.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gorda\\Documents\\Unreal Projects\\MooMooMadness\\Source\\MooMooMadness\\MooMooMadnessCharacter.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gorda\\Documents\\Unreal Projects\\MooMooMadness\\.vscode\\compileCommands_MooMooMadness\\MooMooMadness.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gorda\\Documents\\Unreal Projects\\MooMooMadness\\Source\\MooMooMadness\\MooMooMadnessCharacter.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gorda\\Documents\\Unreal Projects\\MooMooMadness\\.vscode\\compileCommands_MooMooMadness\\MooMooMadness.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gorda\\Documents\\Unreal Projects\\MooMooMadness\\Source\\MooMooMadness\\MooMooMadnessGameMode.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gorda\\Documents\\Unreal Projects\\MooMooMadness\\.vscode\\compileCommands_MooMooMadness\\MooMooMadness.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gorda\\Documents\\Unreal Projects\\MooMooMadness\\Source\\MooMooMadness\\MooMooMadnessGameMode.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gorda\\Documents\\Unreal Projects\\MooMooMadness\\.vscode\\compileCommands_MooMooMadness\\MooMooMadness.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	}
+]

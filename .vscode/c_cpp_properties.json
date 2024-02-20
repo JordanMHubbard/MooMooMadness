@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "MooMooMadnessEditor Editor Win64 Development (MooMooMadness)",
+            "compilerPath": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\cl.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++20",
+            "intelliSenseMode": "msvc-x64",
+            "compileCommands": "C:\\Users\\gorda\\Documents\\Unreal Projects\\MooMooMadness\\.vscode\\compileCommands_MooMooMadness.json"
+        },
+        {
+            "name": "Win32",
+            "compilerPath": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\cl.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++20",
+            "intelliSenseMode": "msvc-x64",
+            "compileCommands": "C:\\Users\\gorda\\Documents\\Unreal Projects\\MooMooMadness\\.vscode\\compileCommands_Default.json"
+        }
+    ],
+    "version": 4
+}
