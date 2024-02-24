@@ -129,9 +129,18 @@ void AMooMooMadnessCharacter::Move(const FInputActionValue& Value)
 
 void AMooMooMadnessCharacter::Sprint()
 {
-	if (Controller != nullptr)
+	if (Controller != nullptr && GetCharacterMovement()->GetMaxSpeed() < 600.f)
 	{
 		GetCharacterMovement()->MaxWalkSpeed = 600.f;
+		float Delay = 0.1f;
+		// Start the timer
+		FTimerDelegate TimerDelegate;
+		FName StartBone = "Head";
+		FName EndBone = "Head_end";
+		FName Attack = "Charge";
+		TimerDelegate.BindUObject(this, &AMooMooMadnessCharacter::CombatLineTrace, StartBone, EndBone, 100.f, Attack);
+		GetWorldTimerManager().SetTimer(LT_TimerHandle, TimerDelegate, Delay, true);
+		UE_LOG(LogTemp, Warning, TEXT("Line Trace"));
 	}
 }
 
@@ -139,7 +148,8 @@ void AMooMooMadnessCharacter::StopSprinting()
 {
 	if (Controller != nullptr)
 	{
-		GetCharacterMovement()->MaxWalkSpeed = 200.f;
+		GetCharacterMovement()->MaxWalkSpeed = 100.f;
+		GetWorldTimerManager().ClearTimer(LT_TimerHandle);
 	}
 }
 
@@ -189,7 +199,8 @@ void AMooMooMadnessCharacter::Server_ReleaseHeadButt_Implementation()
 	FTimerDelegate TimerDelegate;
 	FName StartBone = "Head";
 	FName EndBone = "Head_end";
-	TimerDelegate.BindUObject(this, &AMooMooMadnessCharacter::CombatLineTrace, StartBone, EndBone);
+	FName Attack = "Headbutt";
+	TimerDelegate.BindUObject(this, &AMooMooMadnessCharacter::CombatLineTrace, StartBone, EndBone, 100.f, Attack);
 	GetWorldTimerManager().SetTimer(LT_TimerHandle, TimerDelegate, Delay, true);
 }
 
@@ -206,16 +217,16 @@ void AMooMooMadnessCharacter::Multi_ReleaseHeadButt_Implementation()
 	PlayAnimMontage(HeadButtAnim, 1.f, "ReleaseAttack");
 }
 
-void AMooMooMadnessCharacter::CombatLineTrace(FName StartBone, FName EndBone)
+void AMooMooMadnessCharacter::CombatLineTrace(FName StartBone, FName EndBone, float Distance, FName Attack)
 {
 	UWorld* World = GetWorld();
 	if (!World) { return; }
-
+	UE_LOG(LogTemp, Warning, TEXT("Line Trace"));
 	FHitResult OutHit;
 	FVector Start = GetMesh()->GetBoneLocation(StartBone, EBoneSpaces::WorldSpace);
 	FVector Direction = GetMesh()->GetBoneLocation(EndBone, EBoneSpaces::WorldSpace) - Start;
 	Direction.Normalize();
-	FVector End = Start + Direction*200;
+	FVector End = Start + Direction*Distance;
 	DrawDebugLine(World, Start, End, FColor::Purple,false, 5.f, 0, 3.f);
 
 	World->LineTraceSingleByChannel(OutHit, Start, End, ECC_Pawn);
@@ -225,7 +236,7 @@ void AMooMooMadnessCharacter::CombatLineTrace(FName StartBone, FName EndBone)
 		UE_LOG(LogTemp, Warning, TEXT("This Bish was hit!"));
 		GetWorldTimerManager().ClearTimer(LT_TimerHandle);
 	}
-	else if (!GetMesh()->GetAnimInstance()->Montage_IsActive(HeadButtAnim))
+	else if (Attack == "Headbutt" && !GetMesh()->GetAnimInstance()->Montage_IsActive(HeadButtAnim))
 	{
 		GetWorldTimerManager().ClearTimer(LT_TimerHandle);
 	}

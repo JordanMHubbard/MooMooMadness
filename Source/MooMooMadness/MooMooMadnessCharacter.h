@@ -112,7 +112,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
 	UAnimMontage* KickAnim;
 
-	void CombatLineTrace(FName StartBone, FName EndBone);
+	void CombatLineTrace(FName StartBone, FName EndBone, float Distance, FName Attack);
 	FTimerHandle LT_TimerHandle;
 	
 protected:
