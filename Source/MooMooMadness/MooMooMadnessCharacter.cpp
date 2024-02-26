@@ -127,30 +127,73 @@ void AMooMooMadnessCharacter::Move(const FInputActionValue& Value)
 	}
 }
 
+//Sprint
 void AMooMooMadnessCharacter::Sprint()
 {
 	if (Controller != nullptr && GetCharacterMovement()->GetMaxSpeed() < 600.f)
 	{
-		GetCharacterMovement()->MaxWalkSpeed = 600.f;
-		float Delay = 0.1f;
-		// Start the timer
-		FTimerDelegate TimerDelegate;
-		FName StartBone = "Head";
-		FName EndBone = "Head_end";
-		FName Attack = "Charge";
-		TimerDelegate.BindUObject(this, &AMooMooMadnessCharacter::CombatLineTrace, StartBone, EndBone, 100.f, Attack);
-		GetWorldTimerManager().SetTimer(LT_TimerHandle, TimerDelegate, Delay, true);
-		UE_LOG(LogTemp, Warning, TEXT("Line Trace"));
+		Server_Sprint();
 	}
 }
 
+bool AMooMooMadnessCharacter::Server_Sprint_Validate()
+{
+	return true;
+}
+
+void AMooMooMadnessCharacter::Server_Sprint_Implementation()
+{
+	Multi_Sprint();
+	
+	// Start the timer
+	float Delay = 0.1f;
+	FTimerDelegate TimerDelegate;
+	FName StartBone = "Head";
+	FName EndBone = "Head_end";
+	FName Attack = "Charge";
+	TimerDelegate.BindUObject(this, &AMooMooMadnessCharacter::CombatLineTrace, StartBone, EndBone, 100.f, Attack);
+	GetWorldTimerManager().SetTimer(LT_TimerHandle, TimerDelegate, Delay, true);
+	UE_LOG(LogTemp, Warning, TEXT("Line Trace"));
+}
+
+bool AMooMooMadnessCharacter::Multi_Sprint_Validate()
+{
+	return true;
+}
+
+void AMooMooMadnessCharacter::Multi_Sprint_Implementation()
+{
+	GetCharacterMovement()->MaxWalkSpeed = 600.f;
+}
+
+//Stop Sprinting
 void AMooMooMadnessCharacter::StopSprinting()
 {
 	if (Controller != nullptr)
 	{
-		GetCharacterMovement()->MaxWalkSpeed = 100.f;
-		GetWorldTimerManager().ClearTimer(LT_TimerHandle);
+		Server_StopSprinting();
 	}
+}
+
+bool AMooMooMadnessCharacter::Server_StopSprinting_Validate()
+{
+	return true;
+}
+
+void AMooMooMadnessCharacter::Server_StopSprinting_Implementation()
+{
+	GetWorldTimerManager().ClearTimer(LT_TimerHandle);
+	Multi_StopSprinting();
+}
+
+bool AMooMooMadnessCharacter::Multi_StopSprinting_Validate()
+{
+	return true;
+}
+
+void AMooMooMadnessCharacter::Multi_StopSprinting_Implementation()
+{
+	GetCharacterMovement()->MaxWalkSpeed = 100.f;
 }
 
 void AMooMooMadnessCharacter::Look(const FInputActionValue& Value)

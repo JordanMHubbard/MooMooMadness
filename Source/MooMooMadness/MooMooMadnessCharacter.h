@@ -66,6 +66,26 @@ protected:
 	void Sprint();
 	void StopSprinting();
 
+	UFUNCTION (Server, Reliable, WithValidation)
+	void Server_Sprint();
+	bool Server_Sprint_Validate();
+	void Server_Sprint_Implementation();
+
+	UFUNCTION(NetMulticast, Reliable, WithValidation)
+	void Multi_Sprint();
+	bool Multi_Sprint_Validate();
+	void Multi_Sprint_Implementation();
+
+	UFUNCTION (Server, Reliable, WithValidation)
+	void Server_StopSprinting();
+	bool Server_StopSprinting_Validate();
+	void Server_StopSprinting_Implementation();
+
+	UFUNCTION(NetMulticast, Reliable, WithValidation)
+	void Multi_StopSprinting();
+	bool Multi_StopSprinting_Validate();
+	void Multi_StopSprinting_Implementation();
+
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 
