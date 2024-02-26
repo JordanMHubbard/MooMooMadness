@@ -62,6 +62,9 @@ protected:
 	/** Called for movement input */
 	void Move(const FInputActionValue& Value);
 
+	/** Called for looking input */
+	void Look(const FInputActionValue& Value);
+
 	/** Called for sprint input */
 	void Sprint();
 	void StopSprinting();
@@ -86,13 +89,10 @@ protected:
 	bool Multi_StopSprinting_Validate();
 	void Multi_StopSprinting_Implementation();
 
-	/** Called for looking input */
-	void Look(const FInputActionValue& Value);
-
 	/** Called for HeadButt input */
 	UFUNCTION (BlueprintImplementableEvent)
 	void ChargeHeadButt();
-	
+
 	void ReleaseHeadButt();
 
 	UFUNCTION (BlueprintImplementableEvent)
@@ -132,8 +132,13 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
 	UAnimMontage* KickAnim;
 
+	//Line Trace for combat attacks
 	void CombatLineTrace(FName StartBone, FName EndBone, float Distance, FName Attack);
 	FTimerHandle LT_TimerHandle;
+
+
+	UFUNCTION (BlueprintImplementableEvent)
+	void Stun();
 	
 protected:
 	// APawn interface

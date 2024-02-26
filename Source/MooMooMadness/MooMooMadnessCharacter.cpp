@@ -76,7 +76,6 @@ void AMooMooMadnessCharacter::BeginPlay()
 //////////////////////////////////////////////////////////////////////////
 // Input
 
-
 void AMooMooMadnessCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	// Set up action bindings
@@ -124,6 +123,19 @@ void AMooMooMadnessCharacter::Move(const FInputActionValue& Value)
 		// add movement 
 		AddMovementInput(ForwardDirection, MovementVector.Y);
 		AddMovementInput(RightDirection, MovementVector.X);
+	}
+}
+
+void AMooMooMadnessCharacter::Look(const FInputActionValue& Value)
+{
+	// input is a Vector2D
+	FVector2D LookAxisVector = Value.Get<FVector2D>();
+
+	if (Controller != nullptr)
+	{
+		// add yaw and pitch input to controller
+		AddControllerYawInput(LookAxisVector.X);
+		AddControllerPitchInput(LookAxisVector.Y);
 	}
 }
 
@@ -196,28 +208,15 @@ void AMooMooMadnessCharacter::Multi_StopSprinting_Implementation()
 	GetCharacterMovement()->MaxWalkSpeed = 100.f;
 }
 
-void AMooMooMadnessCharacter::Look(const FInputActionValue& Value)
-{
-	// input is a Vector2D
-	FVector2D LookAxisVector = Value.Get<FVector2D>();
-
-	if (Controller != nullptr)
-	{
-		// add yaw and pitch input to controller
-		AddControllerYawInput(LookAxisVector.X);
-		AddControllerPitchInput(LookAxisVector.Y);
-	}
-}
-
 void AMooMooMadnessCharacter::ReleaseHeadButt()
 {
 	if (Controller != nullptr && !HBOnCooldown)
 	{
-		StopCharge();
+		//Release head butt charge if player is currently charging
 		UAnimInstance* CowMeshInstance = GetMesh()->GetAnimInstance();
 		if (HeadButtAnim && CowMeshInstance->Montage_IsActive(HeadButtChargeAnim))
 		{
-			//PlayAnimMontage(HeadButtAnim, 1.f, "ReleaseAttack");
+			//Start cooldown and call replicated function
 			HBOnCooldown = true;
 			StartHBCooldown();
 			Server_ReleaseHeadButt();
@@ -237,8 +236,8 @@ void AMooMooMadnessCharacter::Server_ReleaseHeadButt_Implementation()
 
 	Multi_ReleaseHeadButt();
 	
-	float Delay = 0.1f;
 	// Start the timer
+	float Delay = 0.1f;
 	FTimerDelegate TimerDelegate;
 	FName StartBone = "Head";
 	FName EndBone = "Head_end";
@@ -255,15 +254,18 @@ bool AMooMooMadnessCharacter::Multi_ReleaseHeadButt_Validate()
 void AMooMooMadnessCharacter::Multi_ReleaseHeadButt_Implementation()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Multicast Implementation."))
-
+	//Call bp function to stop charging and play release anim
 	StopCharge();
 	PlayAnimMontage(HeadButtAnim, 1.f, "ReleaseAttack");
 }
 
+//Detect if player hit another player
 void AMooMooMadnessCharacter::CombatLineTrace(FName StartBone, FName EndBone, float Distance, FName Attack)
 {
 	UWorld* World = GetWorld();
 	if (!World) { return; }
+
+	//Initialize line trace variables
 	UE_LOG(LogTemp, Warning, TEXT("Line Trace"));
 	FHitResult OutHit;
 	FVector Start = GetMesh()->GetBoneLocation(StartBone, EBoneSpaces::WorldSpace);
@@ -272,12 +274,14 @@ void AMooMooMadnessCharacter::CombatLineTrace(FName StartBone, FName EndBone, fl
 	FVector End = Start + Direction*Distance;
 	DrawDebugLine(World, Start, End, FColor::Purple,false, 5.f, 0, 3.f);
 
+	//Call line trace and detect hit
 	World->LineTraceSingleByChannel(OutHit, Start, End, ECC_Pawn);
 	AMooMooMadnessCharacter* HitPlayer = Cast<AMooMooMadnessCharacter>(OutHit.GetActor());
 	if (HitPlayer)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("This Bish was hit!"));
 		GetWorldTimerManager().ClearTimer(LT_TimerHandle);
+		HitPlayer->Stun();
 	}
 	else if (Attack == "Headbutt" && !GetMesh()->GetAnimInstance()->Montage_IsActive(HeadButtAnim))
 	{
