@@ -205,7 +205,7 @@ bool AMooMooMadnessCharacter::Multi_StopSprinting_Validate()
 
 void AMooMooMadnessCharacter::Multi_StopSprinting_Implementation()
 {
-	GetCharacterMovement()->MaxWalkSpeed = 100.f;
+	GetCharacterMovement()->MaxWalkSpeed = 200.f;
 }
 
 void AMooMooMadnessCharacter::ReleaseHeadButt()
@@ -277,7 +277,7 @@ void AMooMooMadnessCharacter::CombatLineTrace(FName StartBone, FName EndBone, fl
 	//Call line trace and detect hit
 	World->LineTraceSingleByChannel(OutHit, Start, End, ECC_Pawn);
 	AMooMooMadnessCharacter* HitPlayer = Cast<AMooMooMadnessCharacter>(OutHit.GetActor());
-	if (HitPlayer)
+	if (HitPlayer && HitPlayer != this)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("This Bish was hit!"));
 		GetWorldTimerManager().ClearTimer(LT_TimerHandle);
