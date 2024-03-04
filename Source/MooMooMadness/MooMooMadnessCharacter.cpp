@@ -160,8 +160,8 @@ void AMooMooMadnessCharacter::Server_Sprint_Implementation()
 	// Start the timer
 	float Delay = 0.1f;
 	FTimerDelegate TimerDelegate;
-	FName StartBone = "Head";
-	FName EndBone = "Head_end";
+	FName StartBone = "Neck3";
+	FName EndBone = "Head";
 	FName Attack = "Charge";
 	TimerDelegate.BindUObject(this, &AMooMooMadnessCharacter::CombatLineTrace, StartBone, EndBone, 100.f, Attack);
 	GetWorldTimerManager().SetTimer(LT_TimerHandle, TimerDelegate, Delay, true);
@@ -239,8 +239,8 @@ void AMooMooMadnessCharacter::Server_ReleaseHeadButt_Implementation()
 	// Start the timer
 	float Delay = 0.1f;
 	FTimerDelegate TimerDelegate;
-	FName StartBone = "Head";
-	FName EndBone = "Head_end";
+	FName StartBone = "Neck3";
+	FName EndBone = "Head";
 	FName Attack = "Headbutt";
 	TimerDelegate.BindUObject(this, &AMooMooMadnessCharacter::CombatLineTrace, StartBone, EndBone, 100.f, Attack);
 	GetWorldTimerManager().SetTimer(LT_TimerHandle, TimerDelegate, Delay, true);
@@ -266,18 +266,23 @@ void AMooMooMadnessCharacter::CombatLineTrace(FName StartBone, FName EndBone, fl
 	if (!World) { return; }
 
 	//Initialize line trace variables
-	UE_LOG(LogTemp, Warning, TEXT("Line Trace"));
 	FHitResult OutHit;
 	FVector Start = GetMesh()->GetBoneLocation(StartBone, EBoneSpaces::WorldSpace);
 	FVector Direction = GetMesh()->GetBoneLocation(EndBone, EBoneSpaces::WorldSpace) - Start;
 	Direction.Normalize();
 	FVector End = Start + Direction*Distance;
 	DrawDebugLine(World, Start, End, FColor::Purple,false, 5.f, 0, 3.f);
-
+	FCollisionQueryParams CollisionParams;
+	CollisionParams.AddIgnoredActor(this);
+	
 	//Call line trace and detect hit
-	World->LineTraceSingleByChannel(OutHit, Start, End, ECC_Pawn);
+	World->LineTraceSingleByChannel(OutHit, Start, End, ECC_Visibility, CollisionParams);
+	if (OutHit.GetActor())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Hit: %s"), *OutHit.GetActor()->GetName());
+	}
 	AMooMooMadnessCharacter* HitPlayer = Cast<AMooMooMadnessCharacter>(OutHit.GetActor());
-	if (HitPlayer && HitPlayer != this)
+	if (HitPlayer)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("This Bish was hit!"));
 		GetWorldTimerManager().ClearTimer(LT_TimerHandle);
