@@ -67,6 +67,8 @@ protected:
 
 	/** Called for sprint input */
 	void Sprint();
+
+	UFUNCTION (BlueprintCallable)
 	void StopSprinting();
 
 	UFUNCTION (Server, Reliable, WithValidation)
@@ -136,9 +138,18 @@ protected:
 	void CombatLineTrace(FName StartBone, FName EndBone, float Distance, FName Attack);
 	FTimerHandle LT_TimerHandle;
 
-
 	UFUNCTION (BlueprintImplementableEvent)
 	void Stun();
+	
+	//Stamina
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	float Stamina = 1.f;
+
+	UFUNCTION (BlueprintImplementableEvent)
+	void DepleteStamina();
+	
+	UFUNCTION (BlueprintImplementableEvent)
+	void PauseStamina();
 	
 protected:
 	// APawn interface

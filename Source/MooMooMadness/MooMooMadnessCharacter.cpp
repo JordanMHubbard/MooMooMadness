@@ -142,9 +142,10 @@ void AMooMooMadnessCharacter::Look(const FInputActionValue& Value)
 //Sprint
 void AMooMooMadnessCharacter::Sprint()
 {
-	if (Controller != nullptr && GetCharacterMovement()->GetMaxSpeed() < 600.f)
+	if (Controller != nullptr && GetCharacterMovement()->GetMaxSpeed() < 600.f && Stamina > 0.f)
 	{
 		Server_Sprint();
+		DepleteStamina();
 	}
 }
 
@@ -184,6 +185,7 @@ void AMooMooMadnessCharacter::StopSprinting()
 	if (Controller != nullptr)
 	{
 		Server_StopSprinting();
+		PauseStamina();
 	}
 }
 
@@ -294,3 +296,4 @@ void AMooMooMadnessCharacter::CombatLineTrace(FName StartBone, FName EndBone, fl
 	}
 	
 }
+
