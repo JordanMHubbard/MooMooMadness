@@ -277,10 +277,10 @@ void AMooMooMadnessCharacter::CombatLineTrace(FName StartBone, FName EndBone, fl
 	
 	//Call line trace and detect hit
 	World->LineTraceSingleByChannel(OutHit, Start, End, ECC_Visibility, CollisionParams);
-	if (OutHit.GetActor())
+	/*if (OutHit.GetActor())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Hit: %s"), *OutHit.GetActor()->GetName());
-	}
+	}*/
 	AMooMooMadnessCharacter* HitPlayer = Cast<AMooMooMadnessCharacter>(OutHit.GetActor());
 	if (HitPlayer)
 	{
