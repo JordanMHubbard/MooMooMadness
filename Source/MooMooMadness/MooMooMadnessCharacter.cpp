@@ -259,6 +259,8 @@ void AMooMooMadnessCharacter::Multi_ReleaseHeadButt_Implementation()
 	//Call bp function to stop charging and play release anim
 	StopCharge();
 	PlayAnimMontage(HeadButtAnim, 1.f, "ReleaseAttack");
+	FVector Velocity = GetActorForwardVector()*750.f;
+	LaunchCharacter(Velocity, false, false);
 }
 
 //Detect if player hit another player
