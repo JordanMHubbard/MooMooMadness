@@ -25,3 +25,7 @@ void ADestroyable::Tick(float DeltaTime)
 
 }
 
+void ADestroyable::DestroySelf()
+{
+}
+
