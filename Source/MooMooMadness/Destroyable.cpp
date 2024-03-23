@@ -3,11 +3,25 @@
 
 #include "Destroyable.h"
 
+#include "MooMooMadnessCharacter.h"
+#include "Components/BoxComponent.h"
+#include "DynamicMesh/ColliderMesh.h"
+
 // Sets default values
 ADestroyable::ADestroyable()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
+
+	//Setup Mesh and HitBox attachment
+	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
+	RootComponent = StaticMesh;
+
+	HitBox = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollision"));
+	HitBox->SetupAttachment(StaticMesh);
+
+	//Setup Overlap event for HitBox
+	//HitBox->OnComponentBeginOverlap.AddDynamic( this, &ADestroyable::BeginOverlap);
 
 }
 
@@ -25,7 +39,21 @@ void ADestroyable::Tick(float DeltaTime)
 
 }
 
+/*void ADestroyable::BeginOverlap(UPrimitiveComponent* OverlappedComponent,
+								AActor* OtherActor,
+								UPrimitiveComponent* OtherComp,
+								int32 OtherBodyIndex,
+								bool bFromSweep,
+								const FHitResult& SweepResult)
+{
+	if (Cast<AMooMooMadnessCharacter>(OtherActor))
+	{
+		DestroySelf();
+	}
+}*/
+
 void ADestroyable::DestroySelf()
 {
+	Destroy();
 }
 

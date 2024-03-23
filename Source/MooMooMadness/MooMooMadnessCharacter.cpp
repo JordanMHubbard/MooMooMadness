@@ -13,6 +13,7 @@
 #include "Animation/AnimMontage.h"
 #include "Animation/AnimInstance.h"
 #include "TimerManager.h"
+#include "Destroyable.h"
 
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -285,12 +286,17 @@ void AMooMooMadnessCharacter::CombatLineTrace(FName StartBone, FName EndBone, fl
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Hit: %s"), *OutHit.GetActor()->GetName());
 	}*/
-	AMooMooMadnessCharacter* HitPlayer = Cast<AMooMooMadnessCharacter>(OutHit.GetActor());
-	if (HitPlayer)
+	if (OutHit.GetActor()->IsA(AMooMooMadnessCharacter::StaticClass()))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("This Bish was hit!"));
 		GetWorldTimerManager().ClearTimer(LT_TimerHandle);
+		AMooMooMadnessCharacter* HitPlayer = Cast<AMooMooMadnessCharacter>(OutHit.GetActor());
 		HitPlayer->Stun();
+	}
+	else if (OutHit.GetActor()->IsA(ADestroyable::StaticClass()))
+	{
+		ADestroyable* HitActor = Cast<ADestroyable>(OutHit.GetActor());
+		HitActor->DestroySelf();
 	}
 	else if (Attack == "Headbutt" && !GetMesh()->GetAnimInstance()->Montage_IsActive(HeadButtAnim))
 	{

@@ -15,12 +15,30 @@ public:
 	// Sets default values for this actor's properties
 	ADestroyable();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	UStaticMeshComponent* StaticMesh;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	class UBoxComponent* HitBox;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int Points = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Score System", meta = (AllowPrivateAccess = "true"))
+	int32 Points = 0;
+	
+	// Sound effect 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	USoundWave* DestructionSound;
+
+	/*UFUNCTION()
+	void BeginOverlap(UPrimitiveComponent* OverlappedComponent, 
+					  AActor* OtherActor, 
+					  UPrimitiveComponent* OtherComp, 
+					  int32 OtherBodyIndex, 
+					  bool bFromSweep, 
+					  const FHitResult &SweepResult );*/
 	
 public:	
 	// Called every frame
