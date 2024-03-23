@@ -286,22 +286,35 @@ void AMooMooMadnessCharacter::CombatLineTrace(FName StartBone, FName EndBone, fl
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Hit: %s"), *OutHit.GetActor()->GetName());
 	}*/
-	if (OutHit.GetActor()->IsA(AMooMooMadnessCharacter::StaticClass()))
+	//AMooMooMadnessCharacter* HitPlayer = Cast<AMooMooMadnessCharacter>(OutHit.GetActor());
+	AActor* HitActor = OutHit.GetActor();
+	if (!HitActor)
+	{
+		return;
+	}
+	
+	if (HitActor->IsA(AMooMooMadnessCharacter::StaticClass()))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("This Bish was hit!"));
 		GetWorldTimerManager().ClearTimer(LT_TimerHandle);
 		AMooMooMadnessCharacter* HitPlayer = Cast<AMooMooMadnessCharacter>(OutHit.GetActor());
-		HitPlayer->Stun();
-	}
-	else if (OutHit.GetActor()->IsA(ADestroyable::StaticClass()))
-	{
-		ADestroyable* HitActor = Cast<ADestroyable>(OutHit.GetActor());
-		HitActor->DestroySelf();
+		if (HitPlayer)
+		{
+			HitPlayer->Stun();
+		}
 	}
 	else if (Attack == "Headbutt" && !GetMesh()->GetAnimInstance()->Montage_IsActive(HeadButtAnim))
 	{
 		GetWorldTimerManager().ClearTimer(LT_TimerHandle);
 	}
-	
+
+	if (HitActor->IsA(ADestroyable::StaticClass()))
+	{
+		ADestroyable* HitDestroyable = Cast<ADestroyable>(OutHit.GetActor());
+		if (HitDestroyable)
+		{
+			HitDestroyable->DestroySelf();
+		}
+	}
 }
 
