@@ -287,12 +287,15 @@ void AMooMooMadnessCharacter::CombatLineTrace(FName StartBone, FName EndBone, fl
 		UE_LOG(LogTemp, Warning, TEXT("Hit: %s"), *OutHit.GetActor()->GetName());
 	}*/
 	//AMooMooMadnessCharacter* HitPlayer = Cast<AMooMooMadnessCharacter>(OutHit.GetActor());
+
+	//Check if hit is valid
 	AActor* HitActor = OutHit.GetActor();
 	if (!HitActor)
 	{
 		return;
 	}
-	
+
+	//Check if hit is another player to apply stun
 	if (HitActor->IsA(AMooMooMadnessCharacter::StaticClass()))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("This Bish was hit!"));
@@ -308,11 +311,13 @@ void AMooMooMadnessCharacter::CombatLineTrace(FName StartBone, FName EndBone, fl
 		GetWorldTimerManager().ClearTimer(LT_TimerHandle);
 	}
 
+	//Check if hit is a destroyable to apply points
 	if (HitActor->IsA(ADestroyable::StaticClass()))
 	{
 		ADestroyable* HitDestroyable = Cast<ADestroyable>(OutHit.GetActor());
 		if (HitDestroyable)
 		{
+			UpdateScore(HitDestroyable->GetPointValue());
 			HitDestroyable->DestroySelf();
 		}
 	}

@@ -26,7 +26,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Score System", meta = (AllowPrivateAccess = "true"))
-	int32 Points = 0;
+	int32 PointValue = 0;
 	
 	// Sound effect 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio", meta = (AllowPrivateAccess = "true"))
@@ -45,5 +45,17 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	void DestroySelf();
+
+	UFUNCTION (Server, Reliable, WithValidation)
+	void Server_DestroySelf();
+	bool Server_DestroySelf_Validate();
+	void Server_DestroySelf_Implementation();
+	
+	UFUNCTION (NetMulticast, Reliable, WithValidation)
+	void Multi_DestroySelf();
+	bool Multi_DestroySelf_Validate();
+	void Multi_DestroySelf_Implementation();
+
+	int GetPointValue();
 
 };

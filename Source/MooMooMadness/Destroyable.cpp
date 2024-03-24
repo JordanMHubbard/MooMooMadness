@@ -57,3 +57,28 @@ void ADestroyable::DestroySelf()
 	Destroy();
 }
 
+bool ADestroyable::Server_DestroySelf_Validate()
+{
+	return true;
+}
+
+void ADestroyable::Server_DestroySelf_Implementation()
+{
+	Multi_DestroySelf();
+}
+
+bool ADestroyable::Multi_DestroySelf_Validate()
+{
+	return true;
+}
+
+void ADestroyable::Multi_DestroySelf_Implementation()
+{
+	Destroy();
+}
+
+int ADestroyable::GetPointValue()
+{
+	return PointValue;
+}
+

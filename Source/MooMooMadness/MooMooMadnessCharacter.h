@@ -150,7 +150,13 @@ protected:
 	
 	UFUNCTION (BlueprintImplementableEvent)
 	void PauseStamina();
-	
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	int32 Score = 0;
+
+	UFUNCTION (BlueprintImplementableEvent)
+	void UpdateScore(int32 Points);
+
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
