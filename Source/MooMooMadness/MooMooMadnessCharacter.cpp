@@ -300,6 +300,7 @@ void AMooMooMadnessCharacter::CombatLineTrace(FName StartBone, FName EndBone, fl
 		AMooMooMadnessCharacter* HitPlayer = Cast<AMooMooMadnessCharacter>(OutHit.GetActor());
 		if (HitPlayer)
 		{
+			UpdateScore(50);
 			HitPlayer->Stun();
 		}
 	}
