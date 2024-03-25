@@ -54,7 +54,7 @@ void ADestroyable::Tick(float DeltaTime)
 
 void ADestroyable::DestroySelf()
 {
-	Destroy();
+	Server_DestroySelf();
 }
 
 bool ADestroyable::Server_DestroySelf_Validate()
