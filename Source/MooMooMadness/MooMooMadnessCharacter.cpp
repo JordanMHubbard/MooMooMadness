@@ -282,37 +282,28 @@ void AMooMooMadnessCharacter::CombatLineTrace(FName StartBone, FName EndBone, fl
 	
 	//Call line trace and detect hit
 	World->LineTraceSingleByChannel(OutHit, Start, End, ECC_Visibility, CollisionParams);
-	/*if (OutHit.GetActor())
+	
+	if (Attack == "Headbutt" && !GetMesh()->GetAnimInstance()->Montage_IsActive(HeadButtAnim))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Hit: %s"), *OutHit.GetActor()->GetName());
-	}*/
-	//AMooMooMadnessCharacter* HitPlayer = Cast<AMooMooMadnessCharacter>(OutHit.GetActor());
+		GetWorldTimerManager().ClearTimer(LT_TimerHandle);
+	}
 
 	//Check if hit is valid
 	AActor* HitActor = OutHit.GetActor();
-	if (!HitActor)
-	{
-		return;
-	}
-
+	if (!HitActor) { return; }
+	
 	//Check if hit is another player to apply stun
 	if (HitActor->IsA(AMooMooMadnessCharacter::StaticClass()))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("This Bish was hit!"));
-		GetWorldTimerManager().ClearTimer(LT_TimerHandle);
+		//GetWorldTimerManager().ClearTimer(LT_TimerHandle);
 		AMooMooMadnessCharacter* HitPlayer = Cast<AMooMooMadnessCharacter>(OutHit.GetActor());
 		if (HitPlayer)
 		{
 			HitPlayer->Stun();
 		}
 	}
-	else if (Attack == "Headbutt" && !GetMesh()->GetAnimInstance()->Montage_IsActive(HeadButtAnim))
-	{
-		GetWorldTimerManager().ClearTimer(LT_TimerHandle);
-	}
-
-	//Check if hit is a destroyable to apply points
-	if (HitActor->IsA(ADestroyable::StaticClass()))
+	else if (HitActor->IsA(ADestroyable::StaticClass()))
 	{
 		ADestroyable* HitDestroyable = Cast<ADestroyable>(OutHit.GetActor());
 		if (HitDestroyable)
