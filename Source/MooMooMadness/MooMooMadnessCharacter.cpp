@@ -37,9 +37,9 @@ AMooMooMadnessCharacter::AMooMooMadnessCharacter()
 
 	// Note: For faster iteration times these variables, and many more, can be tweaked in the Character Blueprint
 	// instead of recompiling to adjust them
-	GetCharacterMovement()->JumpZVelocity = 600.f;
+	GetCharacterMovement()->JumpZVelocity = 750.f;
 	GetCharacterMovement()->AirControl = 0.35f;
-	GetCharacterMovement()->MaxWalkSpeed = 200.f;
+	GetCharacterMovement()->MaxWalkSpeed = 250.f;
 	GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 	GetCharacterMovement()->BrakingDecelerationFalling = 1500.0f;
@@ -47,7 +47,7 @@ AMooMooMadnessCharacter::AMooMooMadnessCharacter()
 	// Create a camera boom (pulls in towards the player if there is a collision)
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = 400.0f; // The camera follows at this distance behind the character	
+	CameraBoom->TargetArmLength = 600.0f; // The camera follows at this distance behind the character	
 	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
 
 	// Create a follow camera
@@ -71,7 +71,10 @@ void AMooMooMadnessCharacter::BeginPlay()
 		{
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
+		FRotator Rotation(-25.f, 180.f, 0.f);
+		PlayerController->SetControlRotation(Rotation);
 	}
+	
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -143,7 +146,7 @@ void AMooMooMadnessCharacter::Look(const FInputActionValue& Value)
 //Sprint
 void AMooMooMadnessCharacter::Sprint()
 {
-	if (Controller != nullptr && GetCharacterMovement()->GetMaxSpeed() < 600.f && Stamina > 0.f)
+	if (Controller != nullptr && GetCharacterMovement()->GetMaxSpeed() < 650.f && Stamina > 0.f)
 	{
 		Server_Sprint();
 		DepleteStamina();
@@ -177,7 +180,7 @@ bool AMooMooMadnessCharacter::Multi_Sprint_Validate()
 
 void AMooMooMadnessCharacter::Multi_Sprint_Implementation()
 {
-	GetCharacterMovement()->MaxWalkSpeed = 600.f;
+	GetCharacterMovement()->MaxWalkSpeed = 650.f;
 }
 
 //Stop Sprinting
@@ -208,7 +211,7 @@ bool AMooMooMadnessCharacter::Multi_StopSprinting_Validate()
 
 void AMooMooMadnessCharacter::Multi_StopSprinting_Implementation()
 {
-	GetCharacterMovement()->MaxWalkSpeed = 200.f;
+	GetCharacterMovement()->MaxWalkSpeed = 250.f;
 }
 
 void AMooMooMadnessCharacter::ReleaseHeadButt()
