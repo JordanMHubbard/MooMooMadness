@@ -159,7 +159,7 @@ protected:
 	void UpdateScore(int32 Points);
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	float MouseSens = 0.5f;
+	float MouseSens = 0.6f;
 
 protected:
 	// APawn interface
