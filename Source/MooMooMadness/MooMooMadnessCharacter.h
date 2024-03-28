@@ -151,11 +151,15 @@ protected:
 	UFUNCTION (BlueprintImplementableEvent)
 	void PauseStamina();
 
+	//Score
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	int32 Score = 0;
 
 	UFUNCTION (BlueprintImplementableEvent)
 	void UpdateScore(int32 Points);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float MouseSens = 0.5f;
 
 protected:
 	// APawn interface
