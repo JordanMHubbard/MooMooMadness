@@ -98,8 +98,8 @@ void AMooMooMadnessCharacter::SetupPlayerInputComponent(UInputComponent* PlayerI
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AMooMooMadnessCharacter::Look);
 
 		// HeadButt
-		EnhancedInputComponent->BindAction(HeadButtAction, ETriggerEvent::Started, this, &AMooMooMadnessCharacter::ChargeHeadButt);
-		EnhancedInputComponent->BindAction(HeadButtAction, ETriggerEvent::Completed, this, &AMooMooMadnessCharacter::ReleaseHeadButt);
+		//EnhancedInputComponent->BindAction(HeadButtAction, ETriggerEvent::Started, this, &AMooMooMadnessCharacter::ChargeHeadButt);
+		EnhancedInputComponent->BindAction(HeadButtAction, ETriggerEvent::Triggered, this, &AMooMooMadnessCharacter::ReleaseHeadButt);
 	}
 	else
 	{
@@ -220,7 +220,7 @@ void AMooMooMadnessCharacter::ReleaseHeadButt()
 	{
 		//Release head butt charge if player is currently charging
 		UAnimInstance* CowMeshInstance = GetMesh()->GetAnimInstance();
-		if (HeadButtAnim && CowMeshInstance->Montage_IsActive(HeadButtChargeAnim))
+		if (HeadButtAnim && !CowMeshInstance->Montage_IsActive(HeadButtChargeAnim))
 		{
 			//Start cooldown and call replicated function
 			HBOnCooldown = true;
@@ -264,7 +264,7 @@ void AMooMooMadnessCharacter::Multi_ReleaseHeadButt_Implementation()
 	StopCharge();
 	PlayAnimMontage(HeadButtAnim, 1.f, "ReleaseAttack");
 	FVector Velocity = GetActorForwardVector()*750.f;
-	LaunchCharacter(Velocity, false, false);
+	LaunchCharacter(Velocity, true, false);
 }
 
 //Detect if player hit another player
