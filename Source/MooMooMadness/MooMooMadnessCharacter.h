@@ -139,7 +139,7 @@ protected:
 	FTimerHandle LT_TimerHandle;
 
 	UFUNCTION (BlueprintImplementableEvent)
-	void Stun();
+	void Stun(FVector Direction);
 	
 	//Stamina
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))

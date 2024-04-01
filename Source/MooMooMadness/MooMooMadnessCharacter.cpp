@@ -304,7 +304,7 @@ void AMooMooMadnessCharacter::CombatLineTrace(FName StartBone, FName EndBone, fl
 		if (HitPlayer)
 		{
 			UpdateScore(50);
-			HitPlayer->Stun();
+			HitPlayer->Stun(GetActorForwardVector());
 		}
 	}
 	else if (HitActor->IsA(ADestroyable::StaticClass()))
