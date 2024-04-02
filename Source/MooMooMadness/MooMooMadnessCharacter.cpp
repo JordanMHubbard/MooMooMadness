@@ -225,7 +225,7 @@ void AMooMooMadnessCharacter::Multi_StopSprinting_Implementation()
 
 void AMooMooMadnessCharacter::ReleaseHeadButt()
 {
-	if (Controller != nullptr && !HBOnCooldown)
+	if (Controller != nullptr && !HBOnCooldown && Stamina > 0.f)
 	{
 		//Release head butt charge if player is currently charging
 		UAnimInstance* CowMeshInstance = GetMesh()->GetAnimInstance();
@@ -312,7 +312,7 @@ void AMooMooMadnessCharacter::CombatLineTrace(FName StartBone, FName EndBone, fl
 		AMooMooMadnessCharacter* HitPlayer = Cast<AMooMooMadnessCharacter>(OutHit.GetActor());
 		if (HitPlayer && !HitPlayer->Invincible)
 		{
-			UpdateScore(50);
+			UpdateScore(10);
 			HitPlayer->Stun(GetActorForwardVector());
 		}
 	}
