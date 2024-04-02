@@ -14,6 +14,7 @@
 #include "Animation/AnimInstance.h"
 #include "TimerManager.h"
 #include "Destroyable.h"
+#include "Net/UnrealNetwork.h"
 
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -57,6 +58,7 @@ AMooMooMadnessCharacter::AMooMooMadnessCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
+	bReplicates = true;
 }
 
 void AMooMooMadnessCharacter::BeginPlay()
@@ -75,6 +77,13 @@ void AMooMooMadnessCharacter::BeginPlay()
 		PlayerController->SetControlRotation(Rotation);
 	}
 	
+}
+
+void AMooMooMadnessCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AMooMooMadnessCharacter, Invincible);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -301,7 +310,7 @@ void AMooMooMadnessCharacter::CombatLineTrace(FName StartBone, FName EndBone, fl
 		UE_LOG(LogTemp, Warning, TEXT("This Bish was hit!"));
 		//GetWorldTimerManager().ClearTimer(LT_TimerHandle);
 		AMooMooMadnessCharacter* HitPlayer = Cast<AMooMooMadnessCharacter>(OutHit.GetActor());
-		if (HitPlayer)
+		if (HitPlayer && !HitPlayer->Invincible)
 		{
 			UpdateScore(50);
 			HitPlayer->Stun(GetActorForwardVector());

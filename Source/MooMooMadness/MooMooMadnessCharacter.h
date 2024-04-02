@@ -140,9 +140,12 @@ protected:
 
 	UFUNCTION (BlueprintImplementableEvent)
 	void Stun(FVector Direction);
+
+	UPROPERTY (Replicated, EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	bool Invincible;
 	
 	//Stamina
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY (EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	float Stamina = 1.f;
 
 	UFUNCTION (BlueprintImplementableEvent)
@@ -155,7 +158,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	int32 Score = 0;
 
-	UFUNCTION (BlueprintImplementableEvent)
+	UFUNCTION (BlueprintImplementableEvent, BlueprintCallable)
 	void UpdateScore(int32 Points);
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
@@ -167,6 +170,8 @@ protected:
 	
 	// To add mapping context
 	virtual void BeginPlay();
+
+	void GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const override;
 
 public:
 	/** Returns CameraBoom subobject **/
