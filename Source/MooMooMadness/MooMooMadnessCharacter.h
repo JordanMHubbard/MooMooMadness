@@ -135,7 +135,7 @@ protected:
 	UAnimMontage* KickAnim;
 
 	//Line Trace for combat attacks
-	void CombatLineTrace(FName StartBone, FName EndBone, float Distance, FName Attack);
+	void CombatTrace(float Distance, FName Attack);
 	FTimerHandle LT_TimerHandle;
 
 	UFUNCTION (BlueprintImplementableEvent)

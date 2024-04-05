@@ -174,12 +174,9 @@ void AMooMooMadnessCharacter::Server_Sprint_Implementation()
 	// Start the timer
 	float Delay = 0.1f;
 	FTimerDelegate TimerDelegate;
-	FName StartBone = "Neck3";
-	FName EndBone = "Head";
 	FName Attack = "Charge";
-	TimerDelegate.BindUObject(this, &AMooMooMadnessCharacter::CombatLineTrace, StartBone, EndBone, 100.f, Attack);
+	TimerDelegate.BindUObject(this, &AMooMooMadnessCharacter::CombatTrace, 50.f, Attack);
 	GetWorldTimerManager().SetTimer(LT_TimerHandle, TimerDelegate, Delay, true);
-	UE_LOG(LogTemp, Warning, TEXT("Line Trace"));
 }
 
 bool AMooMooMadnessCharacter::Multi_Sprint_Validate()
@@ -254,10 +251,8 @@ void AMooMooMadnessCharacter::Server_ReleaseHeadButt_Implementation()
 	// Start the timer
 	float Delay = 0.1f;
 	FTimerDelegate TimerDelegate;
-	FName StartBone = "Neck3";
-	FName EndBone = "Head";
 	FName Attack = "Headbutt";
-	TimerDelegate.BindUObject(this, &AMooMooMadnessCharacter::CombatLineTrace, StartBone, EndBone, 100.f, Attack);
+	TimerDelegate.BindUObject(this, &AMooMooMadnessCharacter::CombatTrace, 50.f, Attack);
 	GetWorldTimerManager().SetTimer(LT_TimerHandle, TimerDelegate, Delay, true);
 }
 
@@ -277,23 +272,23 @@ void AMooMooMadnessCharacter::Multi_ReleaseHeadButt_Implementation()
 }
 
 //Detect if player hit another player
-void AMooMooMadnessCharacter::CombatLineTrace(FName StartBone, FName EndBone, float Distance, FName Attack)
+void AMooMooMadnessCharacter::CombatTrace(float Distance, FName Attack)
 {
 	UWorld* World = GetWorld();
 	if (!World) { return; }
 
-	//Initialize line trace variables
+	//Initialize sphere trace variables
 	FHitResult OutHit;
-	FVector Start = GetMesh()->GetBoneLocation(StartBone, EBoneSpaces::WorldSpace);
-	FVector Direction = GetMesh()->GetBoneLocation(EndBone, EBoneSpaces::WorldSpace) - Start;
-	Direction.Normalize();
+	FVector Direction = GetActorForwardVector();
+	FVector Start = GetMesh()->GetBoneLocation("Neck3", EBoneSpaces::WorldSpace);
 	FVector End = Start + Direction*Distance;
-	DrawDebugLine(World, Start, End, FColor::Purple,false, 5.f, 0, 3.f);
 	FCollisionQueryParams CollisionParams;
 	CollisionParams.AddIgnoredActor(this);
 	
-	//Call line trace and detect hit
-	World->LineTraceSingleByChannel(OutHit, Start, End, ECC_Visibility, CollisionParams);
+	//Call sphere trace and detect hit
+	//World->LineTraceSingleByChannel(OutHit, Start, End, ECC_Visibility, CollisionParams);
+	FCollisionShape ColShape = FCollisionShape::MakeSphere(20.f);
+	World->SweepSingleByChannel(OutHit, Start, End, FQuat::Identity,ECC_Visibility, ColShape, CollisionParams);
 	
 	if (Attack == "Headbutt" && !GetMesh()->GetAnimInstance()->Montage_IsActive(HeadButtAnim))
 	{
@@ -326,4 +321,7 @@ void AMooMooMadnessCharacter::CombatLineTrace(FName StartBone, FName EndBone, fl
 		}
 	}
 }
+
+
+
 
