@@ -309,6 +309,7 @@ void AMooMooMadnessCharacter::CombatTrace(float Distance, FName Attack)
 		{
 			UpdateScore(10);
 			HitPlayer->Stun(GetActorForwardVector());
+			HitPlayer->UpdateScore(-10);
 		}
 	}
 	else if (HitActor->IsA(ADestroyable::StaticClass()))

@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Destroyable.generated.h"
 
+
 UCLASS()
 class MOOMOOMADNESS_API ADestroyable : public AActor
 {
@@ -30,8 +31,11 @@ protected:
 	
 	// Sound effect 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio", meta = (AllowPrivateAccess = "true"))
-	USoundWave* DestructionSound;
+	class USoundWave* DestructionSound;
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void PlaySound();
+	
 	/*UFUNCTION()
 	void BeginOverlap(UPrimitiveComponent* OverlappedComponent, 
 					  AActor* OtherActor, 

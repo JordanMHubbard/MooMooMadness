@@ -6,6 +6,7 @@
 #include "MooMooMadnessCharacter.h"
 #include "Components/BoxComponent.h"
 #include "DynamicMesh/ColliderMesh.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ADestroyable::ADestroyable()
@@ -74,6 +75,7 @@ bool ADestroyable::Multi_DestroySelf_Validate()
 
 void ADestroyable::Multi_DestroySelf_Implementation()
 {
+	PlaySound();
 	Destroy();
 }
 
