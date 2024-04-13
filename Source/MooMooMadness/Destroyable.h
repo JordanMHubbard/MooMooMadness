@@ -31,7 +31,7 @@ protected:
 	
 	// Sound effect 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio", meta = (AllowPrivateAccess = "true"))
-	class USoundWave* DestructionSound;
+	USoundBase* DestructionSound;
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void PlaySound();

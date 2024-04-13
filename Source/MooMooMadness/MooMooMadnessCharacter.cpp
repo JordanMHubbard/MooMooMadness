@@ -267,7 +267,7 @@ void AMooMooMadnessCharacter::Multi_ReleaseHeadButt_Implementation()
 	//Call bp function to stop charging and play release anim
 	StopCharge();
 	PlayAnimMontage(HeadButtAnim, 1.f, "ReleaseAttack");
-	FVector Velocity = GetActorForwardVector()*750.f;
+	FVector Velocity = GetActorForwardVector()*1000.f;
 	LaunchCharacter(Velocity, true, false);
 }
 
@@ -290,7 +290,7 @@ void AMooMooMadnessCharacter::CombatTrace(float Distance, FName Attack)
 	FCollisionShape ColShape = FCollisionShape::MakeSphere(20.f);
 	World->SweepSingleByChannel(OutHit, Start, End, FQuat::Identity,ECC_Visibility, ColShape, CollisionParams);
 	
-	if (Attack == "Headbutt" && !GetMesh()->GetAnimInstance()->Montage_IsActive(HeadButtAnim))
+	if (Attack == "Headbutt" && !GetMesh()->GetAnimInstance()->Montage_IsActive(HeadButtAnim) && GetCharacterMovement()->GetMaxSpeed() < 650.f)
 	{
 		GetWorldTimerManager().ClearTimer(LT_TimerHandle);
 	}
