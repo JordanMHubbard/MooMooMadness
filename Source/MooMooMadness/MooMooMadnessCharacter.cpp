@@ -287,7 +287,7 @@ void AMooMooMadnessCharacter::CombatTrace(float Distance, FName Attack)
 	
 	//Call sphere trace and detect hit
 	//World->LineTraceSingleByChannel(OutHit, Start, End, ECC_Visibility, CollisionParams);
-	FCollisionShape ColShape = FCollisionShape::MakeSphere(20.f);
+	FCollisionShape ColShape = FCollisionShape::MakeSphere(50.f);
 	World->SweepSingleByChannel(OutHit, Start, End, FQuat::Identity,ECC_Visibility, ColShape, CollisionParams);
 	
 	if (Attack == "Headbutt" && !GetMesh()->GetAnimInstance()->Montage_IsActive(HeadButtAnim) && GetCharacterMovement()->GetMaxSpeed() < 650.f)
