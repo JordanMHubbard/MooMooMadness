@@ -158,7 +158,7 @@ void AMooMooMadnessCharacter::Sprint()
 	if (Controller != nullptr && GetCharacterMovement()->GetMaxSpeed() < 650.f && Stamina > 0.f)
 	{
 		Server_Sprint();
-		DepleteStamina();
+		//DepleteStamina();
 	}
 }
 
@@ -195,7 +195,7 @@ void AMooMooMadnessCharacter::StopSprinting()
 	if (Controller != nullptr)
 	{
 		Server_StopSprinting();
-		PauseStamina();
+		//PauseStamina();
 	}
 }
 
