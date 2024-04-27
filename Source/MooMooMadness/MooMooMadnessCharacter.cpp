@@ -266,8 +266,9 @@ void AMooMooMadnessCharacter::Multi_ReleaseHeadButt_Implementation()
 	UE_LOG(LogTemp, Warning, TEXT("Multicast Implementation."))
 	//Call bp function to stop charging and play release anim
 	StopCharge();
-	PlayAnimMontage(HeadButtAnim, 1.f, "ReleaseAttack");
-	FVector Velocity = GetActorForwardVector()*1000.f;
+	//PlayAnimMontage(HeadButtAnim, 1.f, "ReleaseAttack");
+	PlayAnimMontage(JumpAnim, 1.5f, "HeadButtStart");
+	FVector Velocity = GetActorForwardVector()*1250.f;
 	LaunchCharacter(Velocity, true, false);
 }
 
@@ -290,7 +291,7 @@ void AMooMooMadnessCharacter::CombatTrace(float Distance, FName Attack)
 	FCollisionShape ColShape = FCollisionShape::MakeSphere(50.f);
 	World->SweepSingleByChannel(OutHit, Start, End, FQuat::Identity,ECC_Visibility, ColShape, CollisionParams);
 	
-	if (Attack == "Headbutt" && !GetMesh()->GetAnimInstance()->Montage_IsActive(HeadButtAnim) && GetCharacterMovement()->GetMaxSpeed() < 650.f)
+	if (Attack == "Headbutt" && !GetMesh()->GetAnimInstance()->Montage_IsActive(JumpAnim) && GetCharacterMovement()->GetMaxSpeed() < 650.f)
 	{
 		GetWorldTimerManager().ClearTimer(LT_TimerHandle);
 	}
@@ -303,7 +304,6 @@ void AMooMooMadnessCharacter::CombatTrace(float Distance, FName Attack)
 	if (HitActor->IsA(AMooMooMadnessCharacter::StaticClass()))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("This Bish was hit!"));
-		//GetWorldTimerManager().ClearTimer(LT_TimerHandle);
 		AMooMooMadnessCharacter* HitPlayer = Cast<AMooMooMadnessCharacter>(OutHit.GetActor());
 		if (HitPlayer && !HitPlayer->Invincible)
 		{
