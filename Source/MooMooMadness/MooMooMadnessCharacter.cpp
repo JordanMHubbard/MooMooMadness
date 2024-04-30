@@ -308,6 +308,7 @@ void AMooMooMadnessCharacter::CombatTrace(float Distance, FName Attack)
 		if (HitPlayer && !HitPlayer->Invincible)
 		{
 			UpdateScore(10);
+			ClearDecreaseScoreTimer();
 			HitPlayer->Stun(GetActorForwardVector());
 			HitPlayer->UpdateScore(-10);
 		}

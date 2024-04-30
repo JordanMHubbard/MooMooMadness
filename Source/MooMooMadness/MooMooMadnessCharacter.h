@@ -164,6 +164,9 @@ protected:
 	UFUNCTION (BlueprintImplementableEvent, BlueprintCallable)
 	void UpdateScore(int32 Points);
 
+	UFUNCTION (BlueprintImplementableEvent)
+	void ClearDecreaseScoreTimer();
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	float MouseSens = 0.6f;
 
