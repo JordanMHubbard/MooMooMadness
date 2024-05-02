@@ -281,13 +281,14 @@ void AMooMooMadnessCharacter::CombatTrace(float Distance, FName Attack)
 	//Initialize sphere trace variables
 	FHitResult OutHit;
 	FVector Direction = GetActorForwardVector();
-	FVector Start = GetMesh()->GetBoneLocation("Neck3", EBoneSpaces::WorldSpace);
+	FVector Start = GetMesh()->GetBoneLocation("Neck3", EBoneSpaces::WorldSpace) + FVector(0.f, 0.f, -20.f);
 	FVector End = Start + Direction*Distance;
 	FCollisionQueryParams CollisionParams;
 	CollisionParams.AddIgnoredActor(this);
 	
 	//Call sphere trace and detect hit
 	//World->LineTraceSingleByChannel(OutHit, Start, End, ECC_Visibility, CollisionParams);
+	//DrawDebugSphere(World, Start, 50.f, 12, FColor::Red, false, 3.f);
 	FCollisionShape ColShape = FCollisionShape::MakeSphere(50.f);
 	World->SweepSingleByChannel(OutHit, Start, End, FQuat::Identity,ECC_Visibility, ColShape, CollisionParams);
 	
