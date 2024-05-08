@@ -64,7 +64,7 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
-
+	
 	/** Called for sprint input */
 	void Sprint();
 
@@ -167,7 +167,7 @@ protected:
 	UFUNCTION (BlueprintImplementableEvent)
 	void ClearDecreaseScoreTimer();
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	float MouseSens = 0.6f;
 
 protected:
