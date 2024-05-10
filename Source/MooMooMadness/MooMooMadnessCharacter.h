@@ -169,9 +169,6 @@ protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	float MouseSens = 0.6f;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	FRotator InitialRotation = FRotator(0.f, 0.f, 0.f);
 
 protected:
 	// APawn interface
