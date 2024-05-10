@@ -280,7 +280,7 @@ void AMooMooMadnessCharacter::CombatTrace(float Distance, FName Attack)
 	if (!World) { return; }
 
 	//Initialize sphere trace variables
-	FHitResult OutHit;
+	TArray<FHitResult> OutHits;
 	FVector Direction = GetActorForwardVector();
 	FVector Start = GetMesh()->GetBoneLocation("Neck3", EBoneSpaces::WorldSpace) + FVector(0.f, 0.f, -20.f);
 	FVector End = Start + Direction*Distance;
@@ -288,40 +288,41 @@ void AMooMooMadnessCharacter::CombatTrace(float Distance, FName Attack)
 	CollisionParams.AddIgnoredActor(this);
 	
 	//Call sphere trace and detect hit
-	//World->LineTraceSingleByChannel(OutHit, Start, End, ECC_Visibility, CollisionParams);
-	//DrawDebugSphere(World, Start, 50.f, 12, FColor::Red, false, 3.f);
-	FCollisionShape ColShape = FCollisionShape::MakeSphere(50.f);
-	World->SweepSingleByChannel(OutHit, Start, End, FQuat::Identity,ECC_Visibility, ColShape, CollisionParams);
-	
-	if (Attack == "Headbutt" && !GetMesh()->GetAnimInstance()->Montage_IsActive(JumpAnim) && GetCharacterMovement()->GetMaxSpeed() < 650.f)
+	//DrawDebugSphere(World, Start, 40.f, 12, FColor::Red, false, 3.f);
+	FCollisionShape ColShape = FCollisionShape::MakeSphere(40.f);
+	World->SweepMultiByChannel(OutHits, Start, End, FQuat::Identity,ECC_Visibility, ColShape, CollisionParams);
+	for ( FHitResult OutHit : OutHits)
 	{
-		GetWorldTimerManager().ClearTimer(LT_TimerHandle);
-	}
-
-	//Check if hit is valid
-	AActor* HitActor = OutHit.GetActor();
-	if (!HitActor) { return; }
-	
-	//Check if hit is another player to apply stun
-	if (HitActor->IsA(AMooMooMadnessCharacter::StaticClass()))
-	{
-		UE_LOG(LogTemp, Warning, TEXT("This Bish was hit!"));
-		AMooMooMadnessCharacter* HitPlayer = Cast<AMooMooMadnessCharacter>(OutHit.GetActor());
-		if (HitPlayer && !HitPlayer->Invincible)
+		if (Attack == "Headbutt" && !GetMesh()->GetAnimInstance()->Montage_IsActive(JumpAnim) && GetCharacterMovement()->GetMaxSpeed() < 650.f)
 		{
-			UpdateScore(10);
-			ClearDecreaseScoreTimer();
-			HitPlayer->Stun(GetActorForwardVector());
-			HitPlayer->UpdateScore(-10);
+			GetWorldTimerManager().ClearTimer(LT_TimerHandle);
 		}
-	}
-	else if (HitActor->IsA(ADestroyable::StaticClass()))
-	{
-		ADestroyable* HitDestroyable = Cast<ADestroyable>(OutHit.GetActor());
-		if (HitDestroyable)
+
+		//Check if hit is valid
+		AActor* HitActor = OutHit.GetActor();
+		if (!HitActor) { break; }
+	
+		//Check if hit is another player to apply stun
+		if (HitActor->IsA(AMooMooMadnessCharacter::StaticClass()))
 		{
-			UpdateScore(HitDestroyable->GetPointValue());
-			HitDestroyable->DestroySelf();
+			UE_LOG(LogTemp, Warning, TEXT("This Bish was hit!"));
+			AMooMooMadnessCharacter* HitPlayer = Cast<AMooMooMadnessCharacter>(OutHit.GetActor());
+			if (HitPlayer && !HitPlayer->Invincible)
+			{
+				UpdateScore(10);
+				ClearDecreaseScoreTimer();
+				HitPlayer->Stun(GetActorForwardVector());
+				HitPlayer->UpdateScore(-10);
+			}
+		}
+		else if (HitActor->IsA(ADestroyable::StaticClass()))
+		{
+			ADestroyable* HitDestroyable = Cast<ADestroyable>(OutHit.GetActor());
+			if (HitDestroyable)
+			{
+				UpdateScore(HitDestroyable->GetPointValue());
+				HitDestroyable->DestroySelf();
+			}
 		}
 	}
 }
