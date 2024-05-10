@@ -73,8 +73,9 @@ void AMooMooMadnessCharacter::BeginPlay()
 		{
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
-		FRotator Rotation(-25.f, 180.f, 0.f);
-		PlayerController->SetControlRotation(Rotation);
+		
+		//FRotator Rotation(-25.f, 180.f, 0.f);
+		//PlayerController->SetControlRotation(Rotation);
 	}
 	
 }
