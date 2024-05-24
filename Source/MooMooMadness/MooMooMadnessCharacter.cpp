@@ -309,6 +309,7 @@ void AMooMooMadnessCharacter::CombatTrace(float Distance, FName Attack)
 			AMooMooMadnessCharacter* HitPlayer = Cast<AMooMooMadnessCharacter>(OutHit.GetActor());
 			if (HitPlayer && !HitPlayer->Invincible)
 			{
+				SetTempInvincible(1.50);
 				UpdateScore(10);
 				ClearDecreaseScoreTimer();
 				HitPlayer->Stun(GetActorForwardVector());

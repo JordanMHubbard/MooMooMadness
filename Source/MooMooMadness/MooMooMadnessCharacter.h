@@ -146,6 +146,9 @@ protected:
 
 	UPROPERTY (Replicated, EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	bool Invincible;
+
+	UFUNCTION (BlueprintImplementableEvent)
+	void SetTempInvincible(float Time);
 	
 	//Stamina
 	UPROPERTY (EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
