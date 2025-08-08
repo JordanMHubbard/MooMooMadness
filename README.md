@@ -12,6 +12,7 @@
 This project was created to:
 - Build experience with multiplayer design and development
 - Strengthen my skills in networking logic and implementation
+- Understand networking logic standards for C++ *and* Blueprints
 
 ### Contact
 
