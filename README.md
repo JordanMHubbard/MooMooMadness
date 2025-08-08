@@ -3,7 +3,7 @@
 ### Features
 
 - Third-person combat for up to 2 players
-- A map filled with filled destructible objects
+- Farm-themed level filled with filled destructible objects
 - Dynamic scoring system
 - Built in Unreal Engine 5.3
 
